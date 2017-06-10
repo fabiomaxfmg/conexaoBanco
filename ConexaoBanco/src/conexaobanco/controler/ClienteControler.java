@@ -18,12 +18,14 @@ import java.util.logging.Logger;
  */
 public class ClienteControler {
     
-    public boolean inserir (){
-        String sql = "INSERT INTO cliente (nome, codigo) VALUES ('Jole', 7)";
+    public boolean inserir (int codigo, String nome){
+        String sql = "INSERT INTO cliente (nome, codigo) VALUES (?, ?)"; //define instrução SQL
         PreparedStatement ps;
         try {
-            ps = Conexao.getConexao().prepareStatement(sql);
-            ps.execute();
+            ps = Conexao.getConexao().prepareStatement(sql); //prepara instrução SQL
+            ps.setString(1, nome);
+            ps.setInt(2, codigo);
+            ps.execute(); //executa SQL preparada
             return true;
         } catch (SQLException | ClassNotFoundException ex){
             Logger.getLogger(ClienteControler.class.getName()).log(Level.SEVERE, null, ex);
@@ -33,7 +35,9 @@ public class ClienteControler {
     
     public static void main(String[] args) {
         ClienteControler ctrl = new ClienteControler();
-        ctrl.inserir();
+        ctrl.inserir(11, "Creuza");
+        ctrl.inserir(12, "Filisbina");
+        ctrl.inserir(13, "Juvelina");
         
     }
 }
