@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package conexaobanco;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -17,29 +16,24 @@ import java.util.logging.Logger;
 public class Conexao {
 
     private static Connection conn;
-    private final static String driver = "org.postgresql.Driver"; //sempre assim para o PostgreSQL
-    private final static String ip = "localhost/"; //Ip que contem o Banco
-    public static String dataBase = "13.1"; //nome da base de dados no PostgreSQL
-    public static String user = "postgres"; //Usuario do Banco de dados
-    public static String password = "postgres"; //Senha para o Usuário
+    private final static String driver = "org.postgresql.Driver";
+    private final static String ip = "localhost/";
+    public static String dataBase = "aula";
+    public static String user = "postgres";
+    public static String password = "postgres";
 
     public Conexao(Connection conn) {
         this.conn = conn;
     }
 
-    /*
-        Estabelecendo uma conexão com o banco de dados
-    */
-    
     public static Connection getConexao() throws SQLException, ClassNotFoundException {
 
         if (conn != null) {
-            return conn; //usa
+            return conn;
         }
 
-        //cria
-        Class.forName(driver); //nao mexer - definindo JDBC utilizado
-        conn = java.sql.DriverManager.getConnection("jdbc:postgresql://" + ip + dataBase, user, password); //nao mexer - 
+        Class.forName(driver);
+        conn = java.sql.DriverManager.getConnection("jdbc:postgresql://" + ip + dataBase, user, password);
         return conn;
 
     }
@@ -57,7 +51,9 @@ public class Conexao {
         try {
             getConexao();
             System.out.println("Feito!");
-        } catch (SQLException | ClassNotFoundException ex) {
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
             Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
